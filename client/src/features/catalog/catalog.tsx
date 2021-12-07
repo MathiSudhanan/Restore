@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
+import agent from "../../app/api/agent";
+import Loading from "../../app/layout/Loading";
 import { Product } from "../../app/models/product";
 import ProductList from "../ProductList";
 
 export default function Catalog() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products", {
-      mode: "cors",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
+    agent.Catalog.list()
+      .then((products) => setProducts(products))
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
   }, []);
+  if (loading) return <Loading></Loading>;
 
   return (
     <>

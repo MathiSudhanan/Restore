@@ -8,17 +8,13 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import axios from "axios";
-import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import agent from "../../app/api/agent";
+import NotFound from "../../app/errors/NotFound";
+import Loading from "../../app/layout/Loading";
 import { Product } from "../../app/models/product";
-
-//interface Props {}
-interface paramType {
-  id: string;
-}
 
 const ProductDetails = (/*props: Props*/) => {
   const { id } = useParams() as { id: string };
@@ -26,20 +22,17 @@ const ProductDetails = (/*props: Props*/) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/products/${id}`)
-      .then((res) => {
-        setProduct(res.data);
-      })
+    agent.Catalog.details(parseInt(id))
+      .then((product) => setProduct(product))
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
       })
       .finally(() => {
         setLoading(false);
       });
   }, [id]);
-  if (loading) return <h3>Loading ...</h3>;
-  if (!product) return <h3>Product not found.</h3>;
+  if (loading) return <Loading message='Loading product...' />;
+  if (!product) return <NotFound />;
   return (
     <Grid container spacing={6}>
       <Grid item xs={6}>
