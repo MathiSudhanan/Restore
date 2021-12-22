@@ -7,13 +7,16 @@ import { createBrowserHistory } from "history";
 // import { BrowserRouter, Router } from "react-router-dom";
 import { HistoryRouter } from "./app/api/HistoryRouter";
 import { myHistory } from "./app/api/history";
+import { StoreProvider } from "./app/context/StoreContextValue";
 
 export const history = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
     <HistoryRouter history={myHistory}>
-      <App />
+      <StoreProvider>
+        <App />
+      </StoreProvider>
     </HistoryRouter>
   </React.StrictMode>,
   document.getElementById("root")

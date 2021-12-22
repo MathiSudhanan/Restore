@@ -11,7 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { useStoreContext } from "../context/StoreContextValue";
 
 interface Props {
   mode: boolean;
@@ -57,7 +58,8 @@ const navStyles = {
 
 const Header = (props: Props) => {
   const label = { inputProps: { "aria-label": "Switch demo" } };
-
+  const { basket } = useStoreContext();
+  const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
   return (
     <AppBar position='static' sx={{ mb: 4 }}>
       <Toolbar
@@ -91,8 +93,8 @@ const Header = (props: Props) => {
           ))}
         </List>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <IconButton sx={{ color: "inherit" }}>
-            <Badge badgeContent={4} color='secondary'>
+          <IconButton component={Link} to='/basket' sx={{ color: "inherit" }}>
+            <Badge badgeContent={itemCount} color='secondary'>
               <ShoppingCart></ShoppingCart>
               {/* <ShoppingCart */}
             </Badge>

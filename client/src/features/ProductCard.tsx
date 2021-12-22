@@ -1,3 +1,4 @@
+import { LoadingButton } from "@material-ui/lab";
 import {
   Avatar,
   Button,
@@ -9,24 +10,28 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import agent from "../app/api/agent";
+import { useStoreContext } from "../app/context/StoreContextValue";
 import { Product } from "../app/models/product";
+import { formatCurrency } from "../app/util/util";
 
 interface Props {
   product: Product;
 }
 
 const ProductCard = ({ product }: Props) => {
+  const [loading, setLoading] = useState(false);
+  const { setBasket } = useStoreContext();
+  function handleAddItem(productId: number) {
+    setLoading(true);
+    agent.Basket.addItem(productId)
+      .then((basket) => setBasket(basket))
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  }
   return (
-    // <ListItem key={product.id}>
-    //     <ListItemAvatar>
-    //       <Avatar src={product.pictureUrl}></Avatar>
-    //     </ListItemAvatar>
-    //     <ListItemText key={product.id}>
-    //       {product.name} - {product.price}
-    //     </ListItemText>
-    //   </ListItem>
-
     <Card>
       <CardHeader
         avatar={
@@ -50,14 +55,20 @@ const ProductCard = ({ product }: Props) => {
       />
       <CardContent>
         <Typography gutterBottom color='secondary' variant='h5' component='div'>
-          {(product.price / 100).toFixed(2)}
+          {formatCurrency(product.price, true)}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
           {product.brand} / {product.type}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size='small'>Add to cart</Button>
+        <LoadingButton
+          loading={loading}
+          onClick={() => handleAddItem(product.id)}
+          size='small'
+        >
+          Add to cart
+        </LoadingButton>
         <Button component={Link} to={`/catalog/${product.id}`} size='small'>
           View
         </Button>

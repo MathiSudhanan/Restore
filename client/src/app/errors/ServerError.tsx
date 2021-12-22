@@ -1,7 +1,5 @@
 import { Button, Container, Divider, Paper, Typography } from "@mui/material";
-import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { myHistory } from "../api/history";
 
 interface Props {}
 
