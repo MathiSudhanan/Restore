@@ -10,9 +10,8 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { useStoreContext } from "../context/StoreContextValue";
+import { useAppSelector } from "../store/configureStore";
 
 interface Props {
   mode: boolean;
@@ -58,7 +57,7 @@ const navStyles = {
 
 const Header = (props: Props) => {
   const label = { inputProps: { "aria-label": "Switch demo" } };
-  const { basket } = useStoreContext();
+  const { basket } = useAppSelector((state) => state.basket);
   const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
   return (
     <AppBar position='static' sx={{ mb: 4 }}>

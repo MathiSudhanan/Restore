@@ -4,19 +4,21 @@ import "./app/layout/styles.css";
 import App from "./app/layout/App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserHistory } from "history";
-// import { BrowserRouter, Router } from "react-router-dom";
+
 import { HistoryRouter } from "./app/api/HistoryRouter";
 import { myHistory } from "./app/api/history";
-import { StoreProvider } from "./app/context/StoreContextValue";
+
+import { Provider } from "react-redux";
+import { store } from "./app/store/configureStore";
 
 export const history = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
     <HistoryRouter history={myHistory}>
-      <StoreProvider>
+      <Provider store={store}>
         <App />
-      </StoreProvider>
+      </Provider>
     </HistoryRouter>
   </React.StrictMode>,
   document.getElementById("root")
