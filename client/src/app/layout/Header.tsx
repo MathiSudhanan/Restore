@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 import { useAppSelector } from "../store/configureStore";
+import SignedInMenu from "./SignedInMenu";
 
 interface Props {
   mode: boolean;
@@ -58,7 +59,9 @@ const navStyles = {
 const Header = (props: Props) => {
   const label = { inputProps: { "aria-label": "Switch demo" } };
   const { basket } = useAppSelector((state) => state.basket);
+  const { user } = useAppSelector((state) => state.account);
   const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
+
   return (
     <AppBar position='static' sx={{ mb: 4 }}>
       <Toolbar
@@ -98,18 +101,22 @@ const Header = (props: Props) => {
               {/* <ShoppingCart */}
             </Badge>
           </IconButton>
-          <List sx={{ display: "flex" }}>
-            {rightLinks.map(({ title, path }) => (
-              <ListItemButton
-                component={NavLink}
-                to={path}
-                key={path}
-                sx={navStyles}
-              >
-                {title.toUpperCase()}
-              </ListItemButton>
-            ))}
-          </List>
+          {user ? (
+            <SignedInMenu />
+          ) : (
+            <List sx={{ display: "flex" }}>
+              {rightLinks.map(({ title, path }) => (
+                <ListItemButton
+                  component={NavLink}
+                  to={path}
+                  key={path}
+                  sx={navStyles}
+                >
+                  {title.toUpperCase()}
+                </ListItemButton>
+              ))}
+            </List>
+          )}
         </Box>
       </Toolbar>
     </AppBar>

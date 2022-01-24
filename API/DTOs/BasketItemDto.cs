@@ -1,4 +1,4 @@
-namespace API.Controllers.DTOs
+namespace API.DTOs
 {
     public class BasketItemDto
     {

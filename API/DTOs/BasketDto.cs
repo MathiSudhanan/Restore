@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using API.Entities;
 
-namespace API.Controllers.DTOs
+namespace API.DTOs
 {
     public class BasketDto : BaseEntity
     {

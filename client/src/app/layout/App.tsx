@@ -4,8 +4,14 @@ import {
   CssBaseline,
   ThemeProvider,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Navigate, Route, Routes } from "react-router";
+import { useCallback, useEffect, useState } from "react";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router";
 
 import { ToastContainer } from "react-toastify";
 import AboutPage from "../../features/about/AboutPage";
@@ -18,30 +24,52 @@ import "react-toastify/dist/ReactToastify.css";
 import ServerError from "../errors/ServerError";
 import NotFound from "../errors/NotFound";
 import BasketPage from "../../features/basket/BasketPage";
-import { getCookie } from "../util/util";
-import agent from "../api/agent";
 import Loading from "./Loading";
 import CheckoutPage from "../../features/checkout/CheckoutPage";
-import { useAppDispatch } from "../store/configureStore";
-import { setBasket } from "../../features/basket/basketSlice";
+import { useAppDispatch, useAppSelector } from "../store/configureStore";
+import { fetchBasketAsync } from "../../features/basket/basketSlice";
+
+import Register from "../../features/account/Register";
+import Login from "../../features/account/Login";
+import { fetchCurrentUser, setURL } from "../../features/account/accountSlice";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
-  
   const dispatch = useAppDispatch();
+  const { isSessionExpired, redirectUrl } = useAppSelector(
+    (state) => state.account
+  );
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const buyerId = getCookie("buyerId");
-    if (buyerId) {
-      agent.Basket.get()
-        .then((basket) => dispatch(setBasket(basket)))
-        .catch((error) => console.log(error))
-        .finally(() => setLoading(false));
-    } else {
-      // setLoading(false);
+    if (
+      isSessionExpired &&
+      redirectUrl !== "" &&
+      location.pathname !== redirectUrl
+    ) {
+      console.log(location.pathname);
+      let url = redirectUrl;
+      dispatch(setURL(""));
+
+      navigate(url);
+    }
+  }, [dispatch, isSessionExpired, location.pathname, navigate, redirectUrl]);
+
+  const initApp = useCallback(async () => {
+    try {
+      await dispatch(fetchCurrentUser());
+      await dispatch(fetchBasketAsync());
+    } catch (error) {
+      console.log(error);
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    initApp().then(() => setLoading(false));
+  }, [dispatch, initApp]);
 
   const paletteType = darkMode ? "dark" : "light";
   const theme = createTheme({
@@ -73,7 +101,16 @@ function App() {
           <Route path='/server-error' element={<ServerError />} />
           <Route path='/not-found' element={<NotFound />} />
           <Route path='/basket' element={<BasketPage />} />
-          <Route path='/checkout' element={<CheckoutPage />} />
+          <Route
+            path='/checkout'
+            element={
+              <PrivateRoute>
+                <CheckoutPage />
+              </PrivateRoute>
+            }
+          />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
           <Route path='*' element={<Navigate to='not-found' />} />
         </Routes>
       </Container>
