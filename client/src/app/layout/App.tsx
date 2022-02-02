@@ -33,6 +33,7 @@ import Register from "../../features/account/Register";
 import Login from "../../features/account/Login";
 import { fetchCurrentUser, setURL } from "../../features/account/accountSlice";
 import PrivateRoute from "./PrivateRoute";
+import Orders from "../../features/Orders/Orders";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -106,6 +107,14 @@ function App() {
             element={
               <PrivateRoute>
                 <CheckoutPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/Orders'
+            element={
+              <PrivateRoute>
+                <Orders />
               </PrivateRoute>
             }
           />

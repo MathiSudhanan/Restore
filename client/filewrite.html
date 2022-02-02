@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      var fso = new ActiveXObject("Scripting.FileSystemObject");
+      var s = fso.OpenTextFile("C:\\example.txt", 1, true);
+
+      function myFunction() {
+        try {
+          let strText = "Mathi";
+          var file = fopen("c:\MyFile.txt", 3); // opens the file for writing
+          fwrite(file, str); // str is the content that is to be written into the file.
+
+
+          var file = document.getElementById("filePicker").files[0];
+var date = new Date(file.lastModified);
+println("You selected the file " + file.name + " which was modified on " + date.toDateString() + ".");
+
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      myFunction();
+    </script>
+  </head>
+  <body>
+    <h1>See the Text File</h1>
+  </body>
+</html>

@@ -2,7 +2,7 @@ export interface BasketItem {
   productId: number;
   name: string;
   price: number;
-  pictureURL: string;
+  pictureUrl: string;
   brand: string;
   type: string;
   quantity: number;

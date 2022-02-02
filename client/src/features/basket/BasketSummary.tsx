@@ -6,18 +6,14 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material";
-import { useAppSelector } from "../../app/store/configureStore";
-import { convertPrice, formatCurrency } from "../../app/util/util";
+import { formatCurrency } from "../../app/util/util";
 
-export default function BasketSummary() {
-  const { basket } = useAppSelector((state) => state.basket);
+interface Props {
+  subTotal: number;
+}
 
-  const subtotal =
-    basket?.items.reduce(
-      (sum, st) => sum + convertPrice(st.price) * st.quantity,
-      0
-    ) ?? 0;
-  const deliveryFee = subtotal > 100 ? 0 : 5;
+export default function BasketSummary({ subTotal }: Props) {
+  const deliveryFee = subTotal > 100 ? 0 : 5;
 
   return (
     <>
@@ -27,7 +23,7 @@ export default function BasketSummary() {
             <TableRow>
               <TableCell colSpan={2}>Subtotal</TableCell>
               <TableCell align='right'>
-                {formatCurrency(subtotal, false)}
+                {formatCurrency(subTotal, false)}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -39,7 +35,7 @@ export default function BasketSummary() {
             <TableRow>
               <TableCell colSpan={2}>Total</TableCell>
               <TableCell align='right'>
-                {formatCurrency(subtotal + deliveryFee, false)}
+                {formatCurrency(subTotal + deliveryFee, false)}
               </TableCell>
             </TableRow>
             <TableRow>
