@@ -25,7 +25,7 @@ import ServerError from "../errors/ServerError";
 import NotFound from "../errors/NotFound";
 import BasketPage from "../../features/basket/BasketPage";
 import Loading from "./Loading";
-import CheckoutPage from "../../features/checkout/CheckoutPage";
+import CheckoutWrapper from "../../features/checkout/CheckoutWrapper";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
 import { fetchBasketAsync } from "../../features/basket/basketSlice";
 
@@ -106,7 +106,7 @@ function App() {
             path='/checkout'
             element={
               <PrivateRoute>
-                <CheckoutPage />
+                <CheckoutWrapper />
               </PrivateRoute>
             }
           />

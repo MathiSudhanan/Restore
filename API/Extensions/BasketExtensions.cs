@@ -14,15 +14,18 @@ namespace API.Extensions
             {
                 Id = basket.Id,
                 BuyerId = basket.BuyerId,
+                PaymentIntentId = basket.PaymentIntentId,
+                ClientSecret = basket.ClientSecret,
                 Items = basket.Items.Select(x => new BasketItemDto
                 {
                     ProductId = x.ProductId,
                     Name = x.Product.Name,
                     Price = x.Product.Price,
-                    PictureURL = x.Product.PictureUrl,
+                    PictureUrl = x.Product.PictureUrl,
                     Brand = x.Product.Brand,
                     Type = x.Product.Type,
-                    Quantity = x.Quantity
+                    Quantity = x.Quantity,
+                    
 
                 }).ToList()
             };

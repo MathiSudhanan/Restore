@@ -21,7 +21,7 @@ const OrderDetails = ({ order, setSelectedOrder }: Props) => {
       <Grid container>
         <Grid item xs={10}>
           <Typography variant='h3' gutterBottom>
-            Order #{order.id}
+            Order #{order.id} - {order.orderStatus}
           </Typography>
         </Grid>
         <Grid item xs={2}>
