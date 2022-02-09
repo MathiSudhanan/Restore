@@ -34,6 +34,7 @@ import Login from "../../features/account/Login";
 import { fetchCurrentUser, setURL } from "../../features/account/accountSlice";
 import PrivateRoute from "./PrivateRoute";
 import Orders from "../../features/Orders/Orders";
+import HomePageCarousel from "../../features/home/HomePageCarousel";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -44,6 +45,7 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  console.log(location.pathname);
 
   useEffect(() => {
     if (
@@ -92,37 +94,44 @@ function App() {
       <ToastContainer position='bottom-right' hideProgressBar theme='colored' />
       <CssBaseline />
       <Header handleOnChange={handleOnChange} mode={darkMode} />
-      <Container>
+      {location.pathname === "/" ? (
         <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/catalog' element={<Catalog />} />
-          <Route path='/catalog/:id' element={<ProductDetails />} />
-          <Route path='/about' element={<AboutPage />} />
-          <Route path='/contact' element={<Contact />} />
-          <Route path='/server-error' element={<ServerError />} />
-          <Route path='/not-found' element={<NotFound />} />
-          <Route path='/basket' element={<BasketPage />} />
-          <Route
-            path='/checkout'
-            element={
-              <PrivateRoute>
-                <CheckoutWrapper />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/Orders'
-            element={
-              <PrivateRoute>
-                <Orders />
-              </PrivateRoute>
-            }
-          />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='*' element={<Navigate to='not-found' />} />
+          <Route path='/' element={<HomePageCarousel />} />
         </Routes>
-      </Container>
+      ) : (
+        <Container sx={{ mt: 4 }}>
+          <Routes>
+            {/* <Route path='/' element={<HomePage />} /> */}
+
+            <Route path='/catalog' element={<Catalog />} />
+            <Route path='/catalog/:id' element={<ProductDetails />} />
+            <Route path='/about' element={<AboutPage />} />
+            <Route path='/contact' element={<Contact />} />
+            <Route path='/server-error' element={<ServerError />} />
+            <Route path='/not-found' element={<NotFound />} />
+            <Route path='/basket' element={<BasketPage />} />
+            <Route
+              path='/checkout'
+              element={
+                <PrivateRoute>
+                  <CheckoutWrapper />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path='/Orders'
+              element={
+                <PrivateRoute>
+                  <Orders />
+                </PrivateRoute>
+              }
+            />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='*' element={<Navigate to='not-found' />} />
+          </Routes>
+        </Container>
+      )}
     </ThemeProvider>
   );
 }
