@@ -19,6 +19,7 @@ import Catalog from "../../features/catalog/catalog";
 import ProductDetails from "../../features/catalog/ProductDetails";
 import Contact from "../../features/contact/Contact";
 import HomePage from "../../features/home/HomePage";
+import ResponsiveAppBar from "./HeaderResponsive";
 import Header from "./Header";
 import "react-toastify/dist/ReactToastify.css";
 import ServerError from "../errors/ServerError";
@@ -93,6 +94,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <ToastContainer position='bottom-right' hideProgressBar theme='colored' />
       <CssBaseline />
+      {/* <ResponsiveAppBar/> */}
       <Header handleOnChange={handleOnChange} mode={darkMode} />
       {location.pathname === "/" ? (
         <Routes>

@@ -10,9 +10,14 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAppSelector } from "../store/configureStore";
 import SignedInMenu from "./SignedInMenu";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
 
 interface Props {
   mode: boolean;
@@ -62,8 +67,26 @@ const Header = (props: Props) => {
   const { user } = useAppSelector((state) => state.account);
   const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
 
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const handleOpenNavMenu = (event: any) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event: any) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
-    <AppBar position='static' >
+    <AppBar position='static'>
       <Toolbar
         sx={{
           display: "flex",
@@ -71,6 +94,48 @@ const Header = (props: Props) => {
           alignItems: "center",
         }}
       >
+        <Box sx={{ /*flexGrow: 1,*/ display: { xs: "flex", md: "none" } }}>
+          <IconButton
+            size='large'
+            aria-label='account of current user'
+            aria-controls='menu-appbar'
+            aria-haspopup='true'
+            onClick={handleOpenNavMenu}
+            color='inherit'
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id='menu-appbar'
+            anchorEl={anchorElNav}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{
+              display: { xs: "block", md: "none" },
+            }}
+          >
+            {midLinks.map(({ title, path }) => (
+              <ListItemButton
+                component={Link}
+                key={path}
+                to={path}
+                onClick={handleCloseNavMenu}
+              >
+                {title.toUpperCase()}
+              </ListItemButton>
+            ))}
+          </Menu>
+        </Box>
+
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography variant='h6' component={NavLink} to='/' sx={navStyles}>
             RE-STORE
@@ -82,7 +147,12 @@ const Header = (props: Props) => {
             onChange={props.handleOnChange}
           />
         </Box>
-        <List sx={{ display: "flex" }}>
+        <List
+          /*sx={{ display: "flex" }}*/ sx={{
+            // flexGrow: 1,
+            display: { xs: "none", md: "flex" },
+          }}
+        >
           {midLinks.map(({ title, path }) => (
             <ListItemButton
               component={NavLink}
@@ -104,7 +174,13 @@ const Header = (props: Props) => {
           {user ? (
             <SignedInMenu />
           ) : (
-            <List sx={{ display: "flex" }}>
+            <List
+              // sx={{ display: "flex" }}
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", md: "flex" },
+              }}
+            >
               {rightLinks.map(({ title, path }) => (
                 <ListItemButton
                   component={NavLink}
@@ -117,6 +193,58 @@ const Header = (props: Props) => {
               ))}
             </List>
           )}
+        </Box>
+
+        <Box
+          // sx={{ flexGrow: 0 }}
+          sx={{ /*flexGrow: 1,*/ display: { xs: "flex", md: "none" } }}
+        >
+          <Tooltip title='Open settings'>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: "45px" }}
+            id='menu-appbar'
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            {user ? (
+              <SignedInMenu />
+            ) : (
+              <>
+                {/* // sx={{ display: "flex" }}
+                sx={{
+                  flexGrow: 1,
+                  display: { xs: "none", md: "flex" },
+                }}
+              > */}
+                {rightLinks.map(({ title, path }) => (
+                  <ListItemButton
+                    component={NavLink}
+                    onClick={handleCloseUserMenu}
+                    to={path}
+                    key={path}
+                  >
+                    <Typography textAlign='center'>
+                      {title.toUpperCase()}
+                    </Typography>
+                  </ListItemButton>
+                ))}
+              </>
+            )}
+          </Menu>
         </Box>
       </Toolbar>
     </AppBar>
