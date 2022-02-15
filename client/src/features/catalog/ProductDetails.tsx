@@ -78,14 +78,14 @@ const ProductDetails = () => {
   if (!product) return <NotFound />;
   return (
     <Grid container spacing={6}>
-      <Grid item xs={6}>
+      <Grid item sm={6} xs={12}>
         <img
           src={product.pictureUrl}
           alt={product.name}
           style={{ width: "100%" }}
         />
       </Grid>
-      <Grid item xs={6}>
+      <Grid item sm={6} xs={12}>
         <Typography variant='h3'>{product.name}</Typography>
         <Divider sx={{ mb: 2 }} />
         <Typography variant='h4' color='secondary'>
@@ -118,7 +118,7 @@ const ProductDetails = () => {
           </Table>
         </TableContainer>
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item sm={6} xs={12}>
             <TextField
               variant='outlined'
               type='number'
@@ -128,7 +128,7 @@ const ProductDetails = () => {
               onChange={handleOnQuantityChange}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item sm={6} xs={12}>
             <LoadingButton
               disabled={
                 item?.quantity === quantity || (!item && quantity === 0)

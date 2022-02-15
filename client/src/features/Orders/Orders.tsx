@@ -43,7 +43,7 @@ const Orders = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+      <Table /*sx={{ minWidth: 650 }}*/ aria-label='simple table'>
         <TableHead>
           <TableRow>
             <TableCell>Order Number</TableCell>
@@ -59,17 +59,19 @@ const Orders = () => {
               key={order.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component='th' scope='row'>
+              <TableCell component='th' scope='row' style={{ width: 75 }}>
                 {order.id}
               </TableCell>
-              <TableCell align='right'>
+              <TableCell align='right' style={{ width: 75 }}>
                 {formatCurrency(order.total, true)}
               </TableCell>
-              <TableCell align='right'>
+              <TableCell align='right' style={{ width: 75 }}>
                 {order.orderDate.split("T")[0]}
               </TableCell>
-              <TableCell align='right'>{order.orderStatus}</TableCell>
-              <TableCell align='right'>
+              <TableCell align='right' style={{ width: 75 }}>
+                {order.orderStatus}
+              </TableCell>
+              <TableCell align='right' style={{ width: 75 }}>
                 <Button onClick={() => setSelectedOrderNumber(order.id)}>
                   View
                 </Button>

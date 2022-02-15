@@ -25,7 +25,7 @@ const BasketTable = ({ items, isBasket = true }: Props) => {
   const dispatch = useAppDispatch();
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+      <Table /*sx={{ minWidth: 650 }}*/ aria-label='simple table'>
         <TableHead>
           <TableRow>
             <TableCell>Product</TableCell>
@@ -113,16 +113,6 @@ const BasketTable = ({ items, isBasket = true }: Props) => {
                         })
                       )
                     }
-                    // loading={
-                    //   status.loading && status.name === "del" + item.productId
-                    // }
-                    // onClick={() =>
-                    //   handleRemoveItem(
-                    //     item.productId,
-                    //     item.quantity,
-                    //     "del" + item.productId
-                    //   )
-                    // }
                   >
                     <Delete />
                   </LoadingButton>

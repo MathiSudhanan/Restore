@@ -13,7 +13,7 @@ const ProductList = ({ products }: Props) => {
   return (
     <Grid container spacing={4}>
       {products.map((product: Product) => (
-        <Grid key={product.id} item xs={4}>
+        <Grid key={product.id} item xs={12} sm={6} md={4}>
           {productsLoaded ? (
             <ProductCard product={product}></ProductCard>
           ) : (

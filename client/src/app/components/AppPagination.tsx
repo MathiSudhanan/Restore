@@ -12,12 +12,11 @@ const AppPagination = ({ metaData, onPageChange }: Props) => {
   return (
     <Box display='flex' justifyContent='space-between' alignContent='center'>
       <Typography>
-        Displaying {(currentPage - 1) * pageSize + 1}-
+        {(currentPage - 1) * pageSize + 1}-
         {currentPage * pageSize > totalCount
           ? totalCount
           : currentPage * pageSize}{" "}
-        of {totalCount}
-        items
+        of {totalCount} items
       </Typography>
       <Pagination
         count={totalPage}

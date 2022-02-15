@@ -94,7 +94,7 @@ const Header = (props: Props) => {
           alignItems: "center",
         }}
       >
-        <Box sx={{ /*flexGrow: 1,*/ display: { xs: "flex", md: "none" } }}>
+        <Box sx={{ /*flexGrow: 1,*/ display: { xs: "flex", sm: "none" } }}>
           <IconButton
             size='large'
             aria-label='account of current user'
@@ -120,7 +120,7 @@ const Header = (props: Props) => {
             open={Boolean(anchorElNav)}
             onClose={handleCloseNavMenu}
             sx={{
-              display: { xs: "block", md: "none" },
+              display: { xs: "block", sm: "none" },
             }}
           >
             {midLinks.map(({ title, path }) => (
@@ -150,7 +150,7 @@ const Header = (props: Props) => {
         <List
           /*sx={{ display: "flex" }}*/ sx={{
             // flexGrow: 1,
-            display: { xs: "none", md: "flex" },
+            display: { xs: "none", sm: "flex" },
           }}
         >
           {midLinks.map(({ title, path }) => (
@@ -199,11 +199,13 @@ const Header = (props: Props) => {
           // sx={{ flexGrow: 0 }}
           sx={{ /*flexGrow: 1,*/ display: { xs: "flex", md: "none" } }}
         >
-          <Tooltip title='Open settings'>
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
-            </IconButton>
-          </Tooltip>
+          {!user && (
+            <Tooltip title='Open settings'>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar src='/broken-image.jpg' />
+              </IconButton>
+            </Tooltip>
+          )}
           <Menu
             sx={{ mt: "45px" }}
             id='menu-appbar'
@@ -224,12 +226,6 @@ const Header = (props: Props) => {
               <SignedInMenu />
             ) : (
               <>
-                {/* // sx={{ display: "flex" }}
-                sx={{
-                  flexGrow: 1,
-                  display: { xs: "none", md: "flex" },
-                }}
-              > */}
                 {rightLinks.map(({ title, path }) => (
                   <ListItemButton
                     component={NavLink}

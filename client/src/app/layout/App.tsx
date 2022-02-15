@@ -18,8 +18,6 @@ import AboutPage from "../../features/about/AboutPage";
 import Catalog from "../../features/catalog/catalog";
 import ProductDetails from "../../features/catalog/ProductDetails";
 import Contact from "../../features/contact/Contact";
-import HomePage from "../../features/home/HomePage";
-import ResponsiveAppBar from "./HeaderResponsive";
 import Header from "./Header";
 import "react-toastify/dist/ReactToastify.css";
 import ServerError from "../errors/ServerError";
@@ -46,7 +44,6 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location.pathname);
 
   useEffect(() => {
     if (
@@ -54,7 +51,6 @@ function App() {
       redirectUrl !== "" &&
       location.pathname !== redirectUrl
     ) {
-      console.log(location.pathname);
       let url = redirectUrl;
       dispatch(setURL(""));
 
@@ -94,7 +90,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <ToastContainer position='bottom-right' hideProgressBar theme='colored' />
       <CssBaseline />
-      {/* <ResponsiveAppBar/> */}
+
       <Header handleOnChange={handleOnChange} mode={darkMode} />
       {location.pathname === "/" ? (
         <Routes>
